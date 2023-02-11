@@ -54,7 +54,7 @@ namespace Warehouse_EF_WinForms_App
             LoadTabsMethod[tabControlMain.SelectedIndex]();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        void MainForm_Load(object sender, EventArgs e)
         {
             LoadTabsMethod[0]();
         }
@@ -66,6 +66,31 @@ namespace Warehouse_EF_WinForms_App
             {
                 await _warehouseService.AddGoodType(form.GoodTypeName);
                 LoadGoodsTypeAsync();
+            }
+        }
+
+        async void BtnDeleteGoodType_Click(object sender, EventArgs e)
+        {
+            if (gridGoodsType.SelectedRows.Count > 0)
+            {
+                var goodTypeId = int.Parse(gridGoodsType.SelectedRows[0].Cells[0].Value.ToString()!);
+                try
+                {
+                    await _warehouseService.DeleteGoodType(goodTypeId);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                //finally
+                //{
+                //    LoadGoodsTypeAsync();
+                //}
+            }
+            else
+            {
+                MessageBox.Show("Выберите тип товара для удаления!");
             }
         }
     }

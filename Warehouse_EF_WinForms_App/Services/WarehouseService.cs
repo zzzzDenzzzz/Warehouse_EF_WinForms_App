@@ -39,5 +39,24 @@ namespace Warehouse_EF_WinForms_App.Services
             await _warehouseContext.GoodsType.AddAsync(goodType);
             await _warehouseContext.SaveChangesAsync();
         }
+
+        public async Task DeleteGoodType(int id)
+        {
+            var googType = await _warehouseContext.GoodsType.FindAsync(id);
+            if (googType != null)
+            {
+                if (googType.Goods != null && googType.Goods.Any())
+                {
+                    throw new Exception("В системе существуют товары с таким типом. Удаление не возможно");
+                }
+
+                _warehouseContext.GoodsType.Remove(googType);
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("Такого типа товара не существует");
+            }
+        }
     }
 }
