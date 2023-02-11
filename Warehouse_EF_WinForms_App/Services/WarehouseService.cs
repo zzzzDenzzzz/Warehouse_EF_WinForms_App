@@ -63,8 +63,15 @@ namespace Warehouse_EF_WinForms_App.Services
         public async Task UpdateGoodType(int id, string name)
         {
             var goodType = await _warehouseContext.GoodsType.FindAsync(id);
-            goodType.Name = name;
-            await _warehouseContext.SaveChangesAsync();
+            if (goodType != null)
+            {
+                goodType.Name = name;
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception(DatabaseDefaults.GoodTypeNotExist);
+            }
         }
 
         public string GetNameGoodType(int id)
