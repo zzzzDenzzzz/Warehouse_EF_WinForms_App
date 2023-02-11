@@ -3,20 +3,25 @@ using Warehouse_EF_WinForms_App.Constants;
 
 namespace Warehouse_EF_WinForms_App.Forms.GoodType
 {
-    public partial class AddGoodType : Form
+    public partial class AddGoodTypeForm : Form
     {
         public string GoodTypeName => txtAddGoodTypeName.Text.Trim();
 
-        public AddGoodType()
+        public AddGoodTypeForm()
         {
             InitializeComponent();
         }
 
-        private void TxtAddGoodTypeName_Validating(object sender, CancelEventArgs e)
+        void TxtAddGoodTypeName_Validating(object sender, CancelEventArgs e)
         {
             if (txtAddGoodTypeName.Text.Trim().Length > DatabaseDefaults.StringValueMaxLength)
             {
-                nameError.SetError(txtAddGoodTypeName, "Слишком длинное имя товара");
+                nameError.SetError(txtAddGoodTypeName, DatabaseDefaults.GoodTypeNameToLong);
+                e.Cancel = true;
+            }
+            else if (txtAddGoodTypeName.Text.Trim().Length == DatabaseDefaults.StringValueMinLength)
+            {
+                nameError.SetError(txtAddGoodTypeName, DatabaseDefaults.StringNotEmpty);
                 e.Cancel = true;
             }
             else
@@ -26,7 +31,7 @@ namespace Warehouse_EF_WinForms_App.Forms.GoodType
             }
         }
 
-        private void BtnAdd_Click(object sender, EventArgs e)
+        void BtnAdd_Click(object sender, EventArgs e)
         {
             if (ValidateChildren())
             {

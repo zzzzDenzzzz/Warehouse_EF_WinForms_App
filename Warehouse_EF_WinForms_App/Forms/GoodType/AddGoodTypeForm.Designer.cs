@@ -1,6 +1,6 @@
 ﻿namespace Warehouse_EF_WinForms_App.Forms.GoodType
 {
-    partial class AddGoodType
+    partial class AddGoodTypeForm
     {
         /// <summary>
         /// Required designer variable.

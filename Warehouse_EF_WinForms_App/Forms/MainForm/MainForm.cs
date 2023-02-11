@@ -1,3 +1,5 @@
+using System.Numerics;
+using System.Windows.Forms;
 using Warehouse_EF_WinForms_App.Constants;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
 using Warehouse_EF_WinForms_App.Services;
@@ -62,7 +64,7 @@ namespace Warehouse_EF_WinForms_App
 
         async void BtnAddGoodType_Click(object sender, EventArgs e)
         {
-            var form = new AddGoodType();
+            var form = new AddGoodTypeForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 await _warehouseService.AddGoodType(form.GoodTypeName);
@@ -92,6 +94,22 @@ namespace Warehouse_EF_WinForms_App
             else
             {
                 MessageBox.Show(DatabaseDefaults.SelectGoodTypeToDelete);
+            }
+        }
+
+        async void BtnUpdateGoodType_Click(object sender, EventArgs e)
+        {
+            if (gridGoodsType.SelectedRows.Count > 0)
+            {
+                var goodTypeId = int.Parse(gridGoodsType.SelectedRows[0].Cells[0].Value.ToString()!);
+
+                var form = new UpdateGoodTypeForm(_warehouseService.GetNameGoodType(goodTypeId));
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    await _warehouseService.UpdateGoodType(goodTypeId, form.GoodTypeName);
+                    LoadGoodsTypeAsync();
+                }
             }
         }
     }

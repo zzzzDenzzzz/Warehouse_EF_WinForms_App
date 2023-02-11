@@ -165,6 +165,7 @@
             this.btnUpdateGoodType.TabIndex = 4;
             this.btnUpdateGoodType.Text = "Изменить";
             this.btnUpdateGoodType.UseVisualStyleBackColor = true;
+            this.btnUpdateGoodType.Click += new System.EventHandler(this.BtnUpdateGoodType_Click);
             // 
             // btnDeleteGoodType
             // 

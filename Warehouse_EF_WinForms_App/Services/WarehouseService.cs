@@ -43,21 +43,34 @@ namespace Warehouse_EF_WinForms_App.Services
 
         public async Task DeleteGoodType(int id)
         {
-            var googType = await _warehouseContext.GoodsType.FindAsync(id);
-            if (googType != null)
+            var goodType = await _warehouseContext.GoodsType.FindAsync(id);
+            if (goodType != null)
             {
-                if (googType.Goods != null && googType.Goods.Any())
+                if (goodType.Goods != null && goodType.Goods.Any())
                 {
                     throw new Exception(DatabaseDefaults.GoodsTypeDelitionIsNotPossible);
                 }
 
-                _warehouseContext.GoodsType.Remove(googType);
+                _warehouseContext.GoodsType.Remove(goodType);
                 await _warehouseContext.SaveChangesAsync();
             }
             else
             {
                 throw new Exception(DatabaseDefaults.GoodTypeNotExist);
             }
+        }
+
+        public async Task UpdateGoodType(int id, string name)
+        {
+            var goodType = await _warehouseContext.GoodsType.FindAsync(id);
+            goodType.Name = name;
+            await _warehouseContext.SaveChangesAsync();
+        }
+
+        public string GetNameGoodType(int id)
+        {
+            var goodType = _warehouseContext.GoodsType.FindAsync(id);
+            return goodType.Result!.Name;
         }
     }
 }
