@@ -83,10 +83,10 @@ namespace Warehouse_EF_WinForms_App
 
                     MessageBox.Show(ex.Message);
                 }
-                //finally
-                //{
-                //    LoadGoodsTypeAsync();
-                //}
+                finally
+                {
+                    LoadGoodsTypeAsync();
+                }
             }
             else
             {
