@@ -15,10 +15,10 @@ namespace Warehouse_EF_WinForms_App
             _warehouseService = new();
             LoadTabsMethod = new()
             {
-                { 0, () => LoadGoodsAsync() },
-                { 1, () => LoadGoodsTypeAsync() },
-                { 2, () => LoadSuppliersAsync() },
-                { 3, () => LoadDeliveriesAsync() },
+                { 0, LoadGoodsAsync },
+                { 1, LoadGoodsTypeAsync },
+                { 2, LoadSuppliersAsync },
+                { 3, LoadDeliveriesAsync },
             };
         }
 
