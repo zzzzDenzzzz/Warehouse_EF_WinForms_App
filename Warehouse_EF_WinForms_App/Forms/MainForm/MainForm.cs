@@ -1,3 +1,4 @@
+using Warehouse_EF_WinForms_App.Constants;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
 using Warehouse_EF_WinForms_App.Services;
 
@@ -6,7 +7,7 @@ namespace Warehouse_EF_WinForms_App
     public partial class MainForm : Form
     {
         readonly WarehouseService _warehouseService;
-        Dictionary<int, Action> LoadTabsMethod;
+        readonly Dictionary<int, Action> LoadTabsMethod;
 
         public MainForm()
         {
@@ -90,7 +91,7 @@ namespace Warehouse_EF_WinForms_App
             }
             else
             {
-                MessageBox.Show("Выберите тип товара для удаления!");
+                MessageBox.Show(DatabaseDefaults.SelectGoodTypeToDelete);
             }
         }
     }

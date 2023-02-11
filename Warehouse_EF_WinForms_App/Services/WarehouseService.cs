@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Warehouse_EF_WinForms_App.Constants;
 using Warehouse_EF_WinForms_App.Contexts;
 using Warehouse_EF_WinForms_App.Entities;
 
@@ -47,7 +48,7 @@ namespace Warehouse_EF_WinForms_App.Services
             {
                 if (googType.Goods != null && googType.Goods.Any())
                 {
-                    throw new Exception("В системе существуют товары с таким типом. Удаление не возможно");
+                    throw new Exception(DatabaseDefaults.GoodsTypeDelitionIsNotPossible);
                 }
 
                 _warehouseContext.GoodsType.Remove(googType);
@@ -55,7 +56,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
             else
             {
-                throw new Exception("Такого типа товара не существует");
+                throw new Exception(DatabaseDefaults.GoodTypeNotExist);
             }
         }
     }
