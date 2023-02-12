@@ -1,4 +1,5 @@
 using Warehouse_EF_WinForms_App.Constants;
+using Warehouse_EF_WinForms_App.Forms.Good;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
 using Warehouse_EF_WinForms_App.Forms.Supplier;
 using Warehouse_EF_WinForms_App.Services;
@@ -65,7 +66,7 @@ namespace Warehouse_EF_WinForms_App
 
         #endregion
 
-        #region [Good_Type]
+        #region [Good_Type Add, Update, Delete]
 
         async void BtnAddGoodType_Click(object sender, EventArgs e)
         {
@@ -105,7 +106,7 @@ namespace Warehouse_EF_WinForms_App
             }
             else
             {
-                MessageBox.Show(DatabaseDefaults.SelectGoodTypeToDelete);
+                MessageBox.Show(DatabaseDefaults.SelectObjectToDelete);
             }
         }
 
@@ -147,7 +148,7 @@ namespace Warehouse_EF_WinForms_App
 
         #endregion
 
-        #region [Supplier]
+        #region [Supplier Add, Update, Delete]
 
         async void BtnAddSupplier_Click(object sender, EventArgs e)
         {
@@ -187,7 +188,7 @@ namespace Warehouse_EF_WinForms_App
             }
             else
             {
-                MessageBox.Show(DatabaseDefaults.SelectSupplierToDelete);
+                MessageBox.Show(DatabaseDefaults.SelectObjectToDelete);
             }
         }
 
@@ -225,6 +226,20 @@ namespace Warehouse_EF_WinForms_App
                 }
             }
             return true;
+        }
+
+        #endregion
+
+        #region [Good Add, Update, Delete]
+
+        async void BtnAddGood_Click(object sender, EventArgs e)
+        {
+            var form = new AddGoodForm();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                await _warehouseService.AddGood(form.GoodName, form.GoodCost, form.GoodType);
+                LoadSuppliersAsync();
+            }
         }
 
         #endregion

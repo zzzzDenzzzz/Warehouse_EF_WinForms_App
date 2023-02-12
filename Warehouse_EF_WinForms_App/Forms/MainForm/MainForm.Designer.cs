@@ -118,6 +118,7 @@
             this.btnAddGood.TabIndex = 5;
             this.btnAddGood.Text = "Добавить";
             this.btnAddGood.UseVisualStyleBackColor = true;
+            this.btnAddGood.Click += new System.EventHandler(this.BtnAddGood_Click);
             // 
             // gridGoods
             // 
@@ -251,7 +252,7 @@
             // 
             this.btnAddSupplier.Location = new System.Drawing.Point(7, 313);
             this.btnAddSupplier.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnAddSupplier.Name = "btnSupplier";
+            this.btnAddSupplier.Name = "btnAddSupplier";
             this.btnAddSupplier.Size = new System.Drawing.Size(88, 27);
             this.btnAddSupplier.TabIndex = 3;
             this.btnAddSupplier.Text = "Добавить";

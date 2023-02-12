@@ -14,7 +14,7 @@ namespace Warehouse_EF_WinForms_App.Services
             _warehouseContext = new();
         }
 
-        #region [WarehouseContext]
+        #region [GetWarehouseContext]
 
         public async Task<List<Good>> GetGoodsAsync()
         {
@@ -38,7 +38,7 @@ namespace Warehouse_EF_WinForms_App.Services
 
         #endregion
 
-        #region [Good_Type]
+        #region [Good_Type Add, Update, Delete, GetName]
 
         public async Task AddGoodType(string goodTypeName)
         {
@@ -62,7 +62,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
             else
             {
-                throw new Exception(DatabaseDefaults.GoodTypeNotExist);
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
             else
             {
-                throw new Exception(DatabaseDefaults.GoodTypeNotExist);
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Warehouse_EF_WinForms_App.Services
 
         #endregion
 
-        #region [Supplier]
+        #region [Supplier Add, Update, Delete, GetName]
 
         public async Task AddSupplier(string supplierName)
         {
@@ -112,7 +112,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
             else
             {
-                throw new Exception(DatabaseDefaults.SupplierNotExist);
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
             }
         }
 
@@ -126,7 +126,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
             else
             {
-                throw new Exception(DatabaseDefaults.SupplierNotExist);
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
             }
         }
 
@@ -134,6 +134,70 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             var supplier = _warehouseContext.Suppliers.FindAsync(id);
             return supplier.Result!.Name;
+        }
+
+        #endregion
+
+        #region [Good Add, Update, Delete, GetName, GetCost, GetGoodTypeId]
+
+        public async Task AddGood(string goodName, decimal cost, int goodTypeId)
+        {
+            var good = new Good
+            {
+                Name = goodName,
+                Cost = cost,
+                GoodsTypeId = goodTypeId
+            };
+            await _warehouseContext.Goods.AddAsync(good);
+            await _warehouseContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteGood(int id)
+        {
+            var good = await _warehouseContext.Goods.FindAsync(id);
+            if (good != null)
+            {
+                _warehouseContext.Goods.Remove(good);
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
+            }
+        }
+
+        public async Task UpdateGood(int id, string name, decimal cost, int goodTypeId)
+        {
+            var good = await _warehouseContext.Goods.FindAsync(id);
+            if (good != null)
+            {
+                good.Name = name;
+                good.Cost = cost;
+                good.GoodsTypeId = goodTypeId;
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception(DatabaseDefaults.ObjectNotExist);
+            }
+        }
+
+        public string GetNameGood(int id)
+        {
+            var good = _warehouseContext.Goods.FindAsync(id);
+            return good.Result!.Name;
+        }
+
+        public decimal GetCostGood(int id)
+        {
+            var good = _warehouseContext.Goods.FindAsync(id);
+            return good.Result!.Cost;
+        }
+
+        public int GetGoodTypeId(int id)
+        {
+            var good = _warehouseContext.Goods.FindAsync(id);
+            return good.Result!.GoodsTypeId;
         }
 
         #endregion
