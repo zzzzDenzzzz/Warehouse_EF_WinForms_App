@@ -16,7 +16,7 @@ namespace Warehouse_EF_WinForms_App.Forms.GoodType
         {
             if (txtAddGoodTypeName.Text.Trim().Length > DatabaseDefaults.StringValueMaxLength)
             {
-                nameError.SetError(txtAddGoodTypeName, DatabaseDefaults.GoodTypeNameToLong);
+                nameError.SetError(txtAddGoodTypeName, DatabaseDefaults.NameToLong);
                 e.Cancel = true;
             }
             else if (txtAddGoodTypeName.Text.Trim().Length == DatabaseDefaults.StringValueMinLength)

@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Warehouse_EF_WinForms_App.Constants;
 using Warehouse_EF_WinForms_App.Entities;
 
 namespace Warehouse_EF_WinForms_App.Services
@@ -9,10 +10,10 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             DataTable table = new();
             table.Clear();
-            table.Columns.Add("Id");
-            table.Columns.Add("Название");
-            table.Columns.Add("Себестоимость");
-            table.Columns.Add("Тип товара");
+            table.Columns.Add(DatatableDefault.Id);
+            table.Columns.Add(DatatableDefault.Name);
+            table.Columns.Add(DatatableDefault.Cost);
+            table.Columns.Add(DatatableDefault.GoodType);
 
             foreach (var good in goods)
             {
@@ -31,8 +32,8 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             DataTable table = new();
             table.Clear();
-            table.Columns.Add("Id");
-            table.Columns.Add("Название");
+            table.Columns.Add(DatatableDefault.Id);
+            table.Columns.Add(DatatableDefault.Name);
 
             foreach (var goodType in goodsType)
             {
@@ -49,11 +50,11 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             DataTable table = new();
             table.Clear();
-            table.Columns.Add("Id");
-            table.Columns.Add("Количество");
-            table.Columns.Add("Дата доставки");
-            table.Columns.Add("Товар");
-            table.Columns.Add("Поставщик");
+            table.Columns.Add(DatatableDefault.Id);
+            table.Columns.Add(DatatableDefault.Amount);
+            table.Columns.Add(DatatableDefault.DeliveryDate);
+            table.Columns.Add(DatatableDefault.Good);
+            table.Columns.Add(DatatableDefault.Supplier);
 
             foreach (var delivery in deliveries)
             {
@@ -73,8 +74,8 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             DataTable table = new();
             table.Clear();
-            table.Columns.Add("Id");
-            table.Columns.Add("Название");
+            table.Columns.Add(DatatableDefault.Id);
+            table.Columns.Add(DatatableDefault.Name);
 
             foreach (var supplier in suppliers)
             {

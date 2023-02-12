@@ -42,7 +42,7 @@
             this.tabPageSuppliers = new System.Windows.Forms.TabPage();
             this.btnUpdateSupplier = new System.Windows.Forms.Button();
             this.btnDeleteSupplier = new System.Windows.Forms.Button();
-            this.btnSupplier = new System.Windows.Forms.Button();
+            this.btnAddSupplier = new System.Windows.Forms.Button();
             this.gridSuppliers = new System.Windows.Forms.DataGridView();
             this.tabPageDeliveries = new System.Windows.Forms.TabPage();
             this.btnUpdateDelivery = new System.Windows.Forms.Button();
@@ -215,7 +215,7 @@
             // 
             this.tabPageSuppliers.Controls.Add(this.btnUpdateSupplier);
             this.tabPageSuppliers.Controls.Add(this.btnDeleteSupplier);
-            this.tabPageSuppliers.Controls.Add(this.btnSupplier);
+            this.tabPageSuppliers.Controls.Add(this.btnAddSupplier);
             this.tabPageSuppliers.Controls.Add(this.gridSuppliers);
             this.tabPageSuppliers.Location = new System.Drawing.Point(4, 24);
             this.tabPageSuppliers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -234,6 +234,7 @@
             this.btnUpdateSupplier.TabIndex = 8;
             this.btnUpdateSupplier.Text = "Изменить";
             this.btnUpdateSupplier.UseVisualStyleBackColor = true;
+            this.btnUpdateSupplier.Click += new System.EventHandler(this.BtnUpdateSupplier_Click);
             // 
             // btnDeleteSupplier
             // 
@@ -244,16 +245,18 @@
             this.btnDeleteSupplier.TabIndex = 4;
             this.btnDeleteSupplier.Text = "Удалить";
             this.btnDeleteSupplier.UseVisualStyleBackColor = true;
+            this.btnDeleteSupplier.Click += new System.EventHandler(this.BtnDeleteSupplier_Click);
             // 
-            // btnSupplier
+            // btnAddSupplier
             // 
-            this.btnSupplier.Location = new System.Drawing.Point(7, 313);
-            this.btnSupplier.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnSupplier.Name = "btnSupplier";
-            this.btnSupplier.Size = new System.Drawing.Size(88, 27);
-            this.btnSupplier.TabIndex = 3;
-            this.btnSupplier.Text = "Добавить";
-            this.btnSupplier.UseVisualStyleBackColor = true;
+            this.btnAddSupplier.Location = new System.Drawing.Point(7, 313);
+            this.btnAddSupplier.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnAddSupplier.Name = "btnSupplier";
+            this.btnAddSupplier.Size = new System.Drawing.Size(88, 27);
+            this.btnAddSupplier.TabIndex = 3;
+            this.btnAddSupplier.Text = "Добавить";
+            this.btnAddSupplier.UseVisualStyleBackColor = true;
+            this.btnAddSupplier.Click += new System.EventHandler(this.BtnAddSupplier_Click);
             // 
             // gridSuppliers
             // 
@@ -385,7 +388,7 @@
         private Button btnAddGoodType;
         private Button btnUpdateSupplier;
         private Button btnDeleteSupplier;
-        private Button btnSupplier;
+        private Button btnAddSupplier;
         private Button btnUpdateDelivery;
         private Button btnDeleteDelivery;
         private Button btnAddDelivery;

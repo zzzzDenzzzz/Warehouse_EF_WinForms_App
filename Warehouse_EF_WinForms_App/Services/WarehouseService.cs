@@ -14,6 +14,8 @@ namespace Warehouse_EF_WinForms_App.Services
             _warehouseContext = new();
         }
 
+        #region [WarehouseContext]
+
         public async Task<List<Good>> GetGoodsAsync()
         {
             return await _warehouseContext.Goods.ToListAsync();
@@ -33,6 +35,10 @@ namespace Warehouse_EF_WinForms_App.Services
         {
             return await _warehouseContext.Suppliers.ToListAsync();
         }
+
+        #endregion
+
+        #region [Good_Type]
 
         public async Task AddGoodType(string goodTypeName)
         {
@@ -79,5 +85,57 @@ namespace Warehouse_EF_WinForms_App.Services
             var goodType = _warehouseContext.GoodsType.FindAsync(id);
             return goodType.Result!.Name;
         }
+
+        #endregion
+
+        #region [Supplier]
+
+        public async Task AddSupplier(string supplierName)
+        {
+            var supplier = new Supplier { Name = supplierName };
+            await _warehouseContext.Suppliers.AddAsync(supplier);
+            await _warehouseContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSupplier(int id)
+        {
+            var supplier = await _warehouseContext.Suppliers.FindAsync(id);
+            if (supplier != null)
+            {
+                if (supplier.Deliveries != null && supplier.Deliveries.Any())
+                {
+                    throw new Exception(DatabaseDefaults.DeliveriesDelitionIsNotPossible);
+                }
+
+                _warehouseContext.Suppliers.Remove(supplier);
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception(DatabaseDefaults.SupplierNotExist);
+            }
+        }
+
+        public async Task UpdateSupplier(int id, string name)
+        {
+            var supplier = await _warehouseContext.Suppliers.FindAsync(id);
+            if (supplier != null)
+            {
+                supplier.Name = name;
+                await _warehouseContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception(DatabaseDefaults.SupplierNotExist);
+            }
+        }
+
+        public string GetNameSupplier(int id)
+        {
+            var supplier = _warehouseContext.Suppliers.FindAsync(id);
+            return supplier.Result!.Name;
+        }
+
+        #endregion
     }
 }
