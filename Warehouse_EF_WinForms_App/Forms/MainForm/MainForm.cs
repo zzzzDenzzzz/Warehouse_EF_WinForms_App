@@ -1,5 +1,3 @@
-using System.Numerics;
-using System.Windows.Forms;
 using Warehouse_EF_WinForms_App.Constants;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
 using Warehouse_EF_WinForms_App.Services;
@@ -67,8 +65,15 @@ namespace Warehouse_EF_WinForms_App
             var form = new AddGoodTypeForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                await _warehouseService.AddGoodType(form.GoodTypeName);
-                LoadGoodsTypeAsync();
+                if (NameValidating(form.GoodTypeName))
+                {
+                    await _warehouseService.AddGoodType(form.GoodTypeName);
+                    LoadGoodsTypeAsync();
+                }
+                else
+                {
+                    MessageBox.Show(DatabaseDefaults.GoodTypeNameAlreadyExists);
+                }
             }
         }
 
@@ -107,10 +112,30 @@ namespace Warehouse_EF_WinForms_App
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    await _warehouseService.UpdateGoodType(goodTypeId, form.GoodTypeName);
-                    LoadGoodsTypeAsync();
+                    if (NameValidating(form.GoodTypeName))
+                    {
+                        await _warehouseService.UpdateGoodType(goodTypeId, form.GoodTypeName);
+                        LoadGoodsTypeAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show(DatabaseDefaults.GoodTypeNameAlreadyExists);
+                    }
                 }
             }
+        }
+
+        bool NameValidating(string name)
+        {
+            for (int i = 0; i < gridGoodsType.RowCount; i++)
+            {
+                var nameInRow = gridGoodsType["Название", i].Value.ToString();
+                if (nameInRow == name)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

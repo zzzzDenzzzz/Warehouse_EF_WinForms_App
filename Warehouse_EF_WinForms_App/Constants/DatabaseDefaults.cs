@@ -9,5 +9,6 @@
         public static readonly string SelectGoodTypeToDelete = "Выберите тип товара для удаления!";
         public static readonly string GoodTypeNameToLong = "Слишком длинное имя типа товара";
         public static readonly string StringNotEmpty = "Строка не может быть пустой!";
+        public static readonly string GoodTypeNameAlreadyExists = "Название типа товара уже существует";
     }
 }
