@@ -234,14 +234,66 @@ namespace Warehouse_EF_WinForms_App
 
         async void BtnAddGood_Click(object sender, EventArgs e)
         {
-            var form = new AddGoodForm();
+            var pairs = await _warehouseService.GetGoodTypesPairs();
+            var form = new AddGoodForm(pairs);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                await _warehouseService.AddGood(form.GoodName, form.GoodCost, form.GoodType);
-                LoadSuppliersAsync();
+                await _warehouseService.AddGood(form.GoodName, form.GoodCost, form.GoodTypeId);
+                LoadGoodsAsync();
             }
         }
 
         #endregion
+
+        private async void BtnUpdateGood_Click(object sender, EventArgs e)
+        {
+            if (gridGoods.SelectedRows.Count > 0)
+            {
+                var goodID = int.Parse(gridGoodsType.SelectedRows[0].Cells[0].Value.ToString()!);
+                var good = await _warehouseService.GetGoodById(goodID);
+                if (good == null)
+                {
+                    MessageBox.Show("товар не найден");
+                    LoadGoodsAsync();
+                    return;
+                }
+
+                try
+                {
+                    var pairs = await _warehouseService.GetGoodTypesPairs();
+                    var form = new AddGoodForm(pairs, good.Name, good.Cost, good.GoodsTypeId);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        await _warehouseService.EditGood(good, form.GoodName, form.GoodCost, form.GoodTypeId);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadGoodsAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show("¬ыберите товар дл€ изменени€");
+            }
+        }
+
+        private void gridGoods_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            BtnUpdateGood_Click(sender, e);
+        }
+
+        private void gridGoods_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BtnUpdateGood_Click(sender, e);
+            }
+        }
     }
 }
