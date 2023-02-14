@@ -1,4 +1,6 @@
 using Warehouse_EF_WinForms_App.Constants;
+using Warehouse_EF_WinForms_App.Entities;
+using Warehouse_EF_WinForms_App.Forms.Delivery;
 using Warehouse_EF_WinForms_App.Forms.Good;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
 using Warehouse_EF_WinForms_App.Forms.Supplier;
@@ -24,6 +26,8 @@ namespace Warehouse_EF_WinForms_App
             };
         }
 
+        #region [Events]
+
         void TabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadTabsMethod[tabControlMain.SelectedIndex]();
@@ -33,6 +37,21 @@ namespace Warehouse_EF_WinForms_App
         {
             LoadTabsMethod[0]();
         }
+
+        void GridGoods_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            BtnUpdateGood_Click(sender, e);
+        }
+
+        void GridGoods_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BtnUpdateGood_Click(sender, e);
+            }
+        }
+
+        #endregion
 
         #region [Load_Database_Table]
 
@@ -115,20 +134,34 @@ namespace Warehouse_EF_WinForms_App
             if (gridGoodsType.SelectedRows.Count > 0)
             {
                 var goodTypeId = int.Parse(gridGoodsType.SelectedRows[0].Cells[0].Value.ToString()!);
+                var goodType = await _warehouseService.GetGoodTypeById(goodTypeId);
 
-                var form = new UpdateGoodTypeForm(_warehouseService.GetNameGoodType(goodTypeId));
-
-                if (form.ShowDialog() == DialogResult.OK)
+                if (goodType == null)
                 {
-                    if (GoodTypeNameValidating(form.GoodTypeName))
+                    MessageBox.Show("Тип товара не найден");
+                    LoadGoodsTypeAsync();
+                    return;
+                }
+
+                try
+                {
+                    var form = new UpdateGoodTypeForm(goodType.Name);
+                    if (form.ShowDialog() == DialogResult.OK)
                     {
-                        await _warehouseService.UpdateGoodType(goodTypeId, form.GoodTypeName);
-                        LoadGoodsTypeAsync();
+                        if (GoodTypeNameValidating(form.GoodTypeName))
+                        {
+                            await _warehouseService.UpdateGoodType(goodTypeId, form.GoodTypeName);
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show(DatabaseDefaults.GoodTypeNameAlreadyExists);
-                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadGoodsTypeAsync();
                 }
             }
         }
@@ -137,7 +170,7 @@ namespace Warehouse_EF_WinForms_App
         {
             for (int i = 0; i < gridGoodsType.RowCount; i++)
             {
-                var nameInRow = gridGoodsType["Название", i].Value.ToString();
+                var nameInRow = gridGoodsType[DatatableDefault.Name, i].Value.ToString();
                 if (nameInRow == name)
                 {
                     return false;
@@ -197,20 +230,33 @@ namespace Warehouse_EF_WinForms_App
             if (gridSuppliers.SelectedRows.Count > 0)
             {
                 var supplierId = int.Parse(gridSuppliers.SelectedRows[0].Cells[0].Value.ToString()!);
+                var supplier = await _warehouseService.GetSupplierById(supplierId);
 
-                var form = new UpdateSupplierForm(_warehouseService.GetNameSupplier(supplierId));
-
-                if (form.ShowDialog() == DialogResult.OK)
+                if (supplier == null)
                 {
-                    if (SupplierNameValidating(form.SupplierName))
+                    MessageBox.Show("Поставщик не найден");
+                    LoadSuppliersAsync();
+                    return;
+                }
+
+                try
+                {
+                    var form = new UpdateSupplierForm(supplier.Name);
+                    if (form.ShowDialog() == DialogResult.OK)
                     {
-                        await _warehouseService.UpdateSupplier(supplierId, form.SupplierName);
-                        LoadSuppliersAsync();
+                        if (SupplierNameValidating(form.SupplierName))
+                        {
+                            await _warehouseService.UpdateSupplier(supplierId, form.SupplierName);
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show(DatabaseDefaults.SupplierNameAlreadyExists);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadSuppliersAsync();
                 }
             }
         }
@@ -219,7 +265,7 @@ namespace Warehouse_EF_WinForms_App
         {
             for (int i = 0; i < gridSuppliers.RowCount; i++)
             {
-                var nameInRow = gridSuppliers["Название", i].Value.ToString();
+                var nameInRow = gridSuppliers[DatatableDefault.Name, i].Value.ToString();
                 if (nameInRow == name)
                 {
                     return false;
@@ -243,17 +289,15 @@ namespace Warehouse_EF_WinForms_App
             }
         }
 
-        #endregion
-
-        private async void BtnUpdateGood_Click(object sender, EventArgs e)
+        async void BtnUpdateGood_Click(object sender, EventArgs e)
         {
             if (gridGoods.SelectedRows.Count > 0)
             {
-                var goodID = int.Parse(gridGoodsType.SelectedRows[0].Cells[0].Value.ToString()!);
+                var goodID = int.Parse(gridGoods.SelectedRows[0].Cells[0].Value.ToString()!);
                 var good = await _warehouseService.GetGoodById(goodID);
                 if (good == null)
                 {
-                    MessageBox.Show("товар не найден");
+                    MessageBox.Show("Товар не найден");
                     LoadGoodsAsync();
                     return;
                 }
@@ -261,10 +305,10 @@ namespace Warehouse_EF_WinForms_App
                 try
                 {
                     var pairs = await _warehouseService.GetGoodTypesPairs();
-                    var form = new AddGoodForm(pairs, good.Name, good.Cost, good.GoodsTypeId);
+                    var form = new UpdateGoodForm(pairs, good.Name, good.Cost, good.GoodsTypeId);
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        await _warehouseService.EditGood(good, form.GoodName, form.GoodCost, form.GoodTypeId);
+                        await _warehouseService.UpdateGood(good, form.GoodName, form.GoodCost, form.GoodTypeId);
                     }
                 }
                 catch (Exception ex)
@@ -283,17 +327,118 @@ namespace Warehouse_EF_WinForms_App
             }
         }
 
-        private void gridGoods_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        async void BtnDeleteGood_Click(object sender, EventArgs e)
         {
-            BtnUpdateGood_Click(sender, e);
-        }
-
-        private void gridGoods_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
+            if (gridGoods.SelectedRows.Count > 0)
             {
-                BtnUpdateGood_Click(sender, e);
+                var goodId = int.Parse(gridGoods.SelectedRows[0].Cells[0].Value.ToString()!);
+                try
+                {
+                    await _warehouseService.DeleteGood(goodId);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadGoodsAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(DatabaseDefaults.SelectObjectToDelete);
             }
         }
+
+        #endregion
+
+        #region [Delivery Add, Update, Delete]
+
+        async void BtnAddDelivery_Click(object sender, EventArgs e)
+        {
+            var pairsGood = await _warehouseService.GetGoodPairs();
+            var pairsSupplier = await _warehouseService.GetSupplierPairs();
+            var form = new AddDeliveryForm(pairsGood, pairsSupplier);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                await _warehouseService.AddDelivery(form.Amount, form.DeliveryDate, form.GoodId, form.SupplierId);
+                LoadDeliveriesAsync();
+            }
+        }
+
+        async void BtnUpdateDelivery_Click(object sender, EventArgs e)
+        {
+            if (gridDeliveries.SelectedRows.Count > 0)
+            {
+                var deliveryId = int.Parse(gridDeliveries.SelectedRows[0].Cells[0].Value.ToString()!);
+                var delivery = await _warehouseService.GetDeliveryById(deliveryId);
+                if (delivery == null)
+                {
+                    MessageBox.Show("Доставка не найдена");
+                    LoadDeliveriesAsync();
+                    return;
+                }
+
+                try
+                {
+                    var pairsGood = await _warehouseService.GetGoodPairs();
+                    var pairsSupplier = await _warehouseService.GetSupplierPairs();
+                    var form = new UpdateDeliveryForm(
+                        pairsGood, pairsSupplier,
+                        delivery.Amount,
+                        delivery.GoodsId,
+                        delivery.SupplierId,
+                        delivery.DeliveryDate);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        await _warehouseService.UpdateDelivery(
+                            delivery, form.Amount, form.DeliveryDate, form.GoodId, form.SupplierId);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadDeliveriesAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите доставку для изменения");
+            }
+        }
+
+        async void BtnDeleteDelivery_Click(object sender, EventArgs e)
+        {
+            if (gridDeliveries.SelectedRows.Count > 0)
+            {
+                var deliveryId = int.Parse(gridDeliveries.SelectedRows[0].Cells[0].Value.ToString()!);
+                try
+                {
+                    await _warehouseService.DeleteDelivery(deliveryId);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadDeliveriesAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(DatabaseDefaults.SelectObjectToDelete);
+            }
+        }
+
+        #endregion
+
     }
 }

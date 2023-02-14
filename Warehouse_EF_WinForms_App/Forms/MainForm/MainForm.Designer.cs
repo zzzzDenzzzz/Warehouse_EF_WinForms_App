@@ -105,6 +105,7 @@
             this.btnDeleteGood.TabIndex = 6;
             this.btnDeleteGood.Text = "Удалить";
             this.btnDeleteGood.UseVisualStyleBackColor = true;
+            this.btnDeleteGood.Click += new System.EventHandler(this.BtnDeleteGood_Click);
             // 
             // btnAddGood
             // 
@@ -136,8 +137,8 @@
             this.gridGoods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridGoods.Size = new System.Drawing.Size(514, 259);
             this.gridGoods.TabIndex = 0;
-            this.gridGoods.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridGoods_CellMouseDoubleClick);
-            this.gridGoods.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridGoods_KeyDown);
+            this.gridGoods.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridGoods_CellMouseDoubleClick);
+            this.gridGoods.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GridGoods_KeyDown);
             // 
             // tabPageGoodsType
             // 
@@ -289,6 +290,7 @@
             this.btnUpdateDelivery.TabIndex = 9;
             this.btnUpdateDelivery.Text = "Изменить";
             this.btnUpdateDelivery.UseVisualStyleBackColor = true;
+            this.btnUpdateDelivery.Click += new System.EventHandler(this.BtnUpdateDelivery_Click);
             // 
             // btnDeleteDelivery
             // 
@@ -298,6 +300,7 @@
             this.btnDeleteDelivery.TabIndex = 5;
             this.btnDeleteDelivery.Text = "Удалить";
             this.btnDeleteDelivery.UseVisualStyleBackColor = true;
+            this.btnDeleteDelivery.Click += new System.EventHandler(this.BtnDeleteDelivery_Click);
             // 
             // btnAddDelivery
             // 
@@ -307,6 +310,7 @@
             this.btnAddDelivery.TabIndex = 4;
             this.btnAddDelivery.Text = "Добавить";
             this.btnAddDelivery.UseVisualStyleBackColor = true;
+            this.btnAddDelivery.Click += new System.EventHandler(this.BtnAddDelivery_Click);
             // 
             // gridDeliveries
             // 

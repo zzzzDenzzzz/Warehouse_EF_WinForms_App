@@ -15,15 +15,6 @@ namespace Warehouse_EF_WinForms_App.Forms.Good
             PopulateComboBox(goodTypes);
         }
 
-        public AddGoodForm(List<KeyValuePair<string, int>> goodTypes, string name, decimal cost, int goodTypeId)
-        {
-            InitializeComponent();
-            Text = "Изменить товар";
-            txtAddGoodName.Text = name;
-            numericGoodCost.Value = cost;
-            PopulateComboBox(goodTypes, goodTypeId);
-        }
-
         void PopulateComboBox(List<KeyValuePair<string, int>> goodTypes, int goodTypeId = 0)
         {
             var pairs = new List<KeyValuePair<string, int>>
@@ -67,9 +58,9 @@ namespace Warehouse_EF_WinForms_App.Forms.Good
 
         void NumericGoodCost_Validating(object sender, CancelEventArgs e)
         {
-            if (numericGoodCost.Value <= 0)
+            if (numericGoodCost.Value == 0)
             {
-                errorCost.SetError(numericGoodCost, "Cost > 0");
+                errorCost.SetError(numericGoodCost, "Себестоимость должна быть больше нуля");
                 e.Cancel = true;
             }
             else

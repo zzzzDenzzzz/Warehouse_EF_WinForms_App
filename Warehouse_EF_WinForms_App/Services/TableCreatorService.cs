@@ -52,18 +52,18 @@ namespace Warehouse_EF_WinForms_App.Services
             table.Clear();
             table.Columns.Add(DatatableDefault.Id);
             table.Columns.Add(DatatableDefault.Amount);
-            table.Columns.Add(DatatableDefault.DeliveryDate);
             table.Columns.Add(DatatableDefault.Good);
             table.Columns.Add(DatatableDefault.Supplier);
+            table.Columns.Add(DatatableDefault.DeliveryDate);
 
             foreach (var delivery in deliveries)
             {
                 DataRow row = table.NewRow();
                 row[0] = delivery.Id;
                 row[1] = delivery.Amount;
-                row[2] = delivery.DeliveryDate;
-                row[3] = delivery.Goods.Name;
-                row[4] = delivery.Supplier.Name;
+                row[2] = delivery.Goods.Name;
+                row[3] = delivery.Supplier.Name.ToString();
+                row[4] = delivery.DeliveryDate;
                 table.Rows.Add(row);
             }
 
