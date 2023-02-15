@@ -25,9 +25,21 @@ public partial class WarehouseContext : DbContext
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-        .UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
-        .UseLazyLoadingProxies();
+    {
+        try
+        {
+            optionsBuilder
+                .UseSqlServer(ConfigurationManager.ConnectionStrings["ConnectionJob"].ConnectionString)
+                .UseLazyLoadingProxies();
+        }
+        catch (Exception)
+        {
+            optionsBuilder
+                .UseSqlServer(ConfigurationManager.ConnectionStrings["ConnectionHome"].ConnectionString)
+                .UseLazyLoadingProxies();
+        }
+        
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

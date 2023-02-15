@@ -49,14 +49,6 @@ namespace Warehouse_EF_WinForms_App.Forms.Delivery
             comboBoxSupplier.SelectedItem = pairs.First(x => x.Value == supplierId);
         }
 
-        void BtnUpdate_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
-                DialogResult = DialogResult.OK;
-            }
-        }
-
         void NumericAmount_Validating(object sender, CancelEventArgs e)
         {
             if (numericAmount.Value == 0)
@@ -96,6 +88,14 @@ namespace Warehouse_EF_WinForms_App.Forms.Delivery
             {
                 errorSupplier.SetError(comboBoxSupplier, string.Empty);
                 e.Cancel = false;
+            }
+        }
+
+        void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            if (ValidateChildren())
+            {
+                DialogResult = DialogResult.OK;
             }
         }
     }

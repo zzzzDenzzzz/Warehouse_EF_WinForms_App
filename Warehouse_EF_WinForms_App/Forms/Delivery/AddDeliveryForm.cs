@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Warehouse_EF_WinForms_App.Constants;
 
 namespace Warehouse_EF_WinForms_App.Forms.Delivery
 {
@@ -20,12 +21,12 @@ namespace Warehouse_EF_WinForms_App.Forms.Delivery
         {
             var pairs = new List<KeyValuePair<string, int>>
             {
-                new("Не выбран", 0)
+                new(FormDefaults.NotEntry, 0)
             };
             pairs.AddRange(good);
 
-            comboBoxGood.DisplayMember = "Key";
-            comboBoxGood.ValueMember = "Value";
+            comboBoxGood.DisplayMember = FormDefaults.Key;
+            comboBoxGood.ValueMember = FormDefaults.Value;
             comboBoxGood.DataSource = pairs;
             comboBoxGood.SelectedItem = pairs.First(x => x.Value == goodId);
         }
@@ -34,22 +35,14 @@ namespace Warehouse_EF_WinForms_App.Forms.Delivery
         {
             var pairs = new List<KeyValuePair<string, int>>
             {
-                new("Не выбран", 0)
+                new(FormDefaults.NotEntry, 0)
             };
             pairs.AddRange(supplier);
 
-            comboBoxSupplier.DisplayMember = "Key";
-            comboBoxSupplier.ValueMember = "Value";
+            comboBoxSupplier.DisplayMember = FormDefaults.Key;
+            comboBoxSupplier.ValueMember = FormDefaults.Value;
             comboBoxSupplier.DataSource = pairs;
             comboBoxSupplier.SelectedItem = pairs.First(x => x.Value == supplierId);
-        }
-
-        void BtnAdd_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
-                DialogResult = DialogResult.OK;
-            }
         }
 
         void NumericAddAmount_Validating(object sender, CancelEventArgs e)
@@ -91,6 +84,14 @@ namespace Warehouse_EF_WinForms_App.Forms.Delivery
             {
                 errorSupplier.SetError(comboBoxSupplier, string.Empty);
                 e.Cancel = false;
+            }
+        }
+
+        void BtnAdd_Click(object sender, EventArgs e)
+        {
+            if (ValidateChildren())
+            {
+                DialogResult = DialogResult.OK;
             }
         }
     }

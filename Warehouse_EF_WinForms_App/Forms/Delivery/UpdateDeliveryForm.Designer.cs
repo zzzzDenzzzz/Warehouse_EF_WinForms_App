@@ -119,6 +119,7 @@
             // 
             // dateTimePickerDelivery
             // 
+            this.dateTimePickerDelivery.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerDelivery.Location = new System.Drawing.Point(92, 118);
             this.dateTimePickerDelivery.MinDate = new System.DateTime(2023, 2, 14, 0, 0, 0, 0);
             this.dateTimePickerDelivery.Name = "dateTimePickerDelivery";
@@ -173,7 +174,7 @@
             this.Controls.Add(this.numericAmount);
             this.Controls.Add(this.labelAmount);
             this.Name = "UpdateDeliveryForm";
-            this.Text = "Изменить доставку";
+            this.Text = "Изменить поставку";
             ((System.ComponentModel.ISupportInitialize)(this.numericAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorGood)).EndInit();

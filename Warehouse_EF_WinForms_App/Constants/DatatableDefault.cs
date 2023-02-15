@@ -7,7 +7,7 @@
         public static readonly string Cost = "Себестоимость";
         public static readonly string GoodType = "Тип товара";
         public static readonly string Amount = "Количество";
-        public static readonly string DeliveryDate = "Дата доставки";
+        public static readonly string DeliveryDate = "Дата поставки";
         public static readonly string Good = "Товар";
         public static readonly string Supplier = "Поставщик";
     }

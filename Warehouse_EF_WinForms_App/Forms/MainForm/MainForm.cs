@@ -99,7 +99,7 @@ namespace Warehouse_EF_WinForms_App
                 }
                 else
                 {
-                    MessageBox.Show(DatabaseDefaults.GoodTypeNameAlreadyExists);
+                    MessageBox.Show(DatabaseDefaults.NameAlreadyExists);
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace Warehouse_EF_WinForms_App
                 }
                 else
                 {
-                    MessageBox.Show(DatabaseDefaults.SupplierNameAlreadyExists);
+                    MessageBox.Show(DatabaseDefaults.NameAlreadyExists);
                 }
             }
         }

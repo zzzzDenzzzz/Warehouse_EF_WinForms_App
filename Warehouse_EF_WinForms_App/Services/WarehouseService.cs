@@ -54,7 +54,7 @@ namespace Warehouse_EF_WinForms_App.Services
             {
                 if (goodType.Goods != null && goodType.Goods.Any())
                 {
-                    throw new Exception(DatabaseDefaults.GoodsTypeDelitionIsNotPossible);
+                    throw new Exception(DatabaseDefaults.DelitionIsNotPossible);
                 }
 
                 _warehouseContext.GoodsType.Remove(goodType);
@@ -103,7 +103,7 @@ namespace Warehouse_EF_WinForms_App.Services
             {
                 if (supplier.Deliveries != null && supplier.Deliveries.Any())
                 {
-                    throw new Exception(DatabaseDefaults.DeliveriesDelitionIsNotPossible);
+                    throw new Exception(DatabaseDefaults.DelitionIsNotPossible);
                 }
 
                 _warehouseContext.Suppliers.Remove(supplier);
@@ -157,6 +157,10 @@ namespace Warehouse_EF_WinForms_App.Services
             var good = await _warehouseContext.Goods.FindAsync(id);
             if (good != null)
             {
+                if (good.Deliveries != null && good.Deliveries.Any())
+                {
+                    throw new Exception(DatabaseDefaults.DelitionIsNotPossible);
+                }
                 _warehouseContext.Goods.Remove(good);
                 await _warehouseContext.SaveChangesAsync();
             }

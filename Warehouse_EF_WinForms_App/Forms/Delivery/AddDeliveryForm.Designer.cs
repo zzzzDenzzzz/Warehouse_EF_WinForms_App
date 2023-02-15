@@ -65,9 +65,19 @@
             0,
             0,
             0});
+            this.numericAddAmount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericAddAmount.Name = "numericAddAmount";
             this.numericAddAmount.Size = new System.Drawing.Size(166, 21);
             this.numericAddAmount.TabIndex = 1;
+            this.numericAddAmount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericAddAmount.Validating += new System.ComponentModel.CancelEventHandler(this.NumericAddAmount_Validating);
             // 
             // labelGood
@@ -119,6 +129,7 @@
             // 
             // dateTimePickerDelivery
             // 
+            this.dateTimePickerDelivery.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerDelivery.Location = new System.Drawing.Point(92, 124);
             this.dateTimePickerDelivery.MinDate = new System.DateTime(2023, 2, 14, 0, 0, 0, 0);
             this.dateTimePickerDelivery.Name = "dateTimePickerDelivery";
@@ -173,7 +184,7 @@
             this.Controls.Add(this.numericAddAmount);
             this.Controls.Add(this.labelAmount);
             this.Name = "AddDeliveryForm";
-            this.Text = "Добавить доставку";
+            this.Text = "Добавить поставку";
             ((System.ComponentModel.ISupportInitialize)(this.numericAddAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorGood)).EndInit();
