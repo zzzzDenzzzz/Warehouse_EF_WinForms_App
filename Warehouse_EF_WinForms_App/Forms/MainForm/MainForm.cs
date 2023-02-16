@@ -1,5 +1,4 @@
 using Warehouse_EF_WinForms_App.Constants;
-using Warehouse_EF_WinForms_App.Entities;
 using Warehouse_EF_WinForms_App.Forms.Delivery;
 using Warehouse_EF_WinForms_App.Forms.Good;
 using Warehouse_EF_WinForms_App.Forms.GoodType;

@@ -170,7 +170,7 @@ namespace Warehouse_EF_WinForms_App.Services
             }
         }
 
-        public async Task<Good?>GetGoodById(int id)
+        public async Task<Good?> GetGoodById(int id)
         {
             return await _warehouseContext.Goods.FindAsync(id);
         }
@@ -204,7 +204,7 @@ namespace Warehouse_EF_WinForms_App.Services
         public async Task AddDelivery(int amount, DateTime date, int goodId, int supplierId)
         {
             var delivery = new Delivery
-            { 
+            {
                 Amount = amount,
                 DeliveryDate = date,
                 GoodsId = goodId,
