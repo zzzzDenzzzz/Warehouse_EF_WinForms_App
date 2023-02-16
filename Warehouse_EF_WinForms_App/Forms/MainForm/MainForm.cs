@@ -1,4 +1,5 @@
 using Warehouse_EF_WinForms_App.Constants;
+using Warehouse_EF_WinForms_App.Entities;
 using Warehouse_EF_WinForms_App.Forms.Delivery;
 using Warehouse_EF_WinForms_App.Forms.Good;
 using Warehouse_EF_WinForms_App.Forms.GoodType;
@@ -439,8 +440,83 @@ namespace Warehouse_EF_WinForms_App
 
         #endregion
 
-        void BtnGetGoodMaxAmount_Click(object sender, EventArgs e)
+        #region [Queries]
+
+        async void BtnGetGoodMaxAmount_Click(object sender, EventArgs e)
         {
+            var good = await _warehouseService.GetGoodMaxAmountAsync();
+            MessageBox.Show(good.Name,
+                "Товар с максимальным количеством",
+                MessageBoxButtons.OK ,MessageBoxIcon.Information);
         }
+
+        async void BtnGetGoodMinAmount_Click(object sender, EventArgs e)
+        {
+            var good = await _warehouseService.GetGoodMinAmountAsync();
+            MessageBox.Show(good.Name,
+                "Товар с минимальным количеством",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        async void BtnGetGoodMinCost_Click(object sender, EventArgs e)
+        {
+            var good = await _warehouseService.GetGoodMinCostAsync();
+            MessageBox.Show(good.Name,
+                "Товар с минимальной себестоимостью",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        async void BtnGetGoodMaxCost_Click(object sender, EventArgs e)
+        {
+            var good = await _warehouseService.GetGoodMaxCostAsync();
+            MessageBox.Show(good.Name,
+                "Товар с максимальной себестоимостью",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        async void BtnGetGoodSetGoodType_Click(object sender, EventArgs e)
+        {
+            var pairs = await _warehouseService.GetGoodTypesPairs();
+            var form = new SetGoodTypeQueryGoodForm(pairs);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var listGood = await _warehouseService.GetGoodSetGoodType(form.GoodTypeId);
+                if (listGood != null)
+                {
+                    string goodSetType = string.Empty;
+                    foreach (var item in listGood)
+                    {
+                        goodSetType += (item.Name + Environment.NewLine);
+                    }
+                    MessageBox.Show(goodSetType,
+                    "Товары, категории" + " - " + form.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        async void BtnGetGoodSetSupplier_Click(object sender, EventArgs e)
+        {
+            var pairs = await _warehouseService.GetSupplierPairs();
+            var form = new SetSupplierQueryGoodForm(pairs);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var listGood = await _warehouseService.GetGoodSetSuplier(form.SupplierId);
+                if (listGood != null)
+                {
+                    string goodSetSupplier = string.Empty;
+                    foreach (var item in listGood)
+                    {
+                        goodSetSupplier += (item.Name + Environment.NewLine);
+                    }
+                    MessageBox.Show(goodSetSupplier,
+                    "Товары, поставщика" + " - " + form.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        #endregion
+
     }
 }

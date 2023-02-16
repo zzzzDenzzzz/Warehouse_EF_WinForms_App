@@ -90,9 +90,19 @@
             0,
             131072});
             this.numericUpdateGoodCost.Location = new System.Drawing.Point(109, 41);
+            this.numericUpdateGoodCost.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.numericUpdateGoodCost.Name = "numericUpdateGoodCost";
             this.numericUpdateGoodCost.Size = new System.Drawing.Size(213, 21);
             this.numericUpdateGoodCost.TabIndex = 4;
+            this.numericUpdateGoodCost.Value = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.numericUpdateGoodCost.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpdateGoodCost_Validating);
             // 
             // comboBoxUpdateGoodType

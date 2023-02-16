@@ -121,10 +121,12 @@
             // 
             this.dateTimePickerDelivery.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerDelivery.Location = new System.Drawing.Point(92, 118);
-            this.dateTimePickerDelivery.MinDate = new System.DateTime(2023, 2, 14, 0, 0, 0, 0);
+            this.dateTimePickerDelivery.MaxDate = new System.DateTime(2023, 2, 16, 0, 0, 0, 0);
+            this.dateTimePickerDelivery.MinDate = new System.DateTime(2022, 12, 31, 0, 0, 0, 0);
             this.dateTimePickerDelivery.Name = "dateTimePickerDelivery";
             this.dateTimePickerDelivery.Size = new System.Drawing.Size(201, 21);
             this.dateTimePickerDelivery.TabIndex = 7;
+            this.dateTimePickerDelivery.Value = new System.DateTime(2023, 2, 16, 0, 0, 0, 0);
             // 
             // btnUpdate
             // 

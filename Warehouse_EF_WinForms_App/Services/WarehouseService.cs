@@ -269,6 +269,94 @@ namespace Warehouse_EF_WinForms_App.Services
             throw new Exception("Нет товара");
         }
 
+        // показать товар с минимальным количеством
+        public async Task<Good> GetGoodMinAmountAsync()
+        {
+            if (_warehouseContext.Deliveries.Any())
+            {
+                var min = await _warehouseContext.Deliveries
+                .GroupBy(p => p.GoodsId)
+                .Select(p => new { GoodsId = p.Key, AmountMin = p.Min(p => p.Amount) })
+                .OrderBy(p => p.AmountMin)
+                .FirstAsync();
+
+                var goods = await _warehouseContext.Goods
+                    .FindAsync(min.GoodsId);
+
+                if (goods != null)
+                {
+                    return goods;
+                }
+                throw new Exception("Поставщик не найден");
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать товар с минимальной себестоимостью
+        public async Task<Good> GetGoodMinCostAsync()
+        {
+            var good = await _warehouseContext.Goods
+                .OrderBy(g => g.Cost)
+                .FirstAsync();
+
+            if (good != null)
+            {
+                return good;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать товар с максимальной себестоимостью
+        public async Task<Good> GetGoodMaxCostAsync()
+        {
+            var good = await _warehouseContext.Goods
+                .OrderByDescending(g => g.Cost)
+                .FirstAsync();
+
+            if (good != null)
+            {
+                return good;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать, товары заданной категории
+        public async Task<List<Good>> GetGoodSetGoodType(int idGoodType)
+        {
+            var listGoods = await _warehouseContext.Goods
+                .Where(g => g.GoodsType.Id == idGoodType)
+                .ToListAsync();
+
+            if (listGoods != null)
+            {
+                return listGoods;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать, товары заданного поставщика
+        public async Task<List<Good>> GetGoodSetSuplier(int idSupplier)
+        {
+            var supplier = await _warehouseContext.Suppliers
+                .Where(s => s.Id == idSupplier)
+                .SingleOrDefaultAsync();
+
+            if (supplier != null)
+            {
+                var listGoods = await _warehouseContext.Deliveries
+                .Where(d => d.SupplierId == supplier.Id)
+                .Select(d => d.Goods)
+                .ToListAsync();
+
+                if (listGoods != null)
+                {
+                    return listGoods;
+                }
+            }
+            
+            throw new Exception("Нет товара");
+        }
+
         #endregion
     }
 }

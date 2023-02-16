@@ -76,6 +76,11 @@
             // 
             this.numericGoodCost.DecimalPlaces = 2;
             this.numericGoodCost.Location = new System.Drawing.Point(99, 41);
+            this.numericGoodCost.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.numericGoodCost.Name = "numericGoodCost";
             this.numericGoodCost.Size = new System.Drawing.Size(234, 21);
             this.numericGoodCost.TabIndex = 3;
