@@ -439,5 +439,8 @@ namespace Warehouse_EF_WinForms_App
 
         #endregion
 
+        void BtnGetGoodMaxAmount_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -244,5 +244,31 @@ namespace Warehouse_EF_WinForms_App.Services
 
         #endregion
 
+        #region [Queries]
+
+        // показать товар с максимальным количеством
+        public async Task<Good> GetGoodMaxAmountAsync()
+        {
+            if (_warehouseContext.Deliveries.Any())
+            {
+                var max = await _warehouseContext.Deliveries
+                .GroupBy(p => p.GoodsId)
+                .Select(p => new { GoodsId = p.Key, AmountMax = p.Max(p => p.Amount) })
+                .OrderByDescending(p => p.AmountMax)
+                .FirstAsync();
+
+                var goods = await _warehouseContext.Goods
+                    .FindAsync(max.GoodsId);
+
+                if (goods != null)
+                {
+                    return goods;
+                }
+                throw new Exception("Поставщик не найден");
+            }
+            throw new Exception("Нет товара");
+        }
+
+        #endregion
     }
 }
