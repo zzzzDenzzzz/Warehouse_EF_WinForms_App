@@ -253,8 +253,8 @@ namespace Warehouse_EF_WinForms_App.Services
             {
                 var max = await _warehouseContext.Deliveries
                 .GroupBy(p => p.GoodsId)
-                .Select(p => new { GoodsId = p.Key, AmountMax = p.Max(p => p.Amount) })
-                .OrderByDescending(p => p.AmountMax)
+                .Select(p => new { GoodsId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderByDescending(p => p.AmountSum)
                 .FirstAsync();
 
                 var goods = await _warehouseContext.Goods
@@ -276,8 +276,8 @@ namespace Warehouse_EF_WinForms_App.Services
             {
                 var min = await _warehouseContext.Deliveries
                 .GroupBy(p => p.GoodsId)
-                .Select(p => new { GoodsId = p.Key, AmountMin = p.Min(p => p.Amount) })
-                .OrderBy(p => p.AmountMin)
+                .Select(p => new { GoodsId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderBy(p => p.AmountSum)
                 .FirstAsync();
 
                 var goods = await _warehouseContext.Goods
