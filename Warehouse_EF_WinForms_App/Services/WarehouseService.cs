@@ -357,6 +357,107 @@ namespace Warehouse_EF_WinForms_App.Services
             throw new Exception("Нет товара");
         }
 
+        // показать самый старый товар на складе
+        public async Task<Good> GetOldestGoodInWarehouse()
+        {
+            return await _warehouseContext.Deliveries
+                .OrderBy(d => d.DeliveryDate)
+                .Select(d => d.Goods)
+                .FirstAsync();
+        }
+
+        // показать информацию о поставщике с наибольшим количеством товаров на складе
+        public async Task<Supplier> GetSupplierWithMostAmountGoods()
+        {
+            var max = await _warehouseContext.Deliveries
+                .GroupBy(p => p.SupplierId)
+                .Select(p => new { SupplierId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderByDescending(p => p.AmountSum)
+                .FirstAsync();
+
+            var supplier = await _warehouseContext.Suppliers
+                .FindAsync(max.SupplierId);
+
+            if (supplier != null)
+            {
+                return supplier;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать информацию о поставщике с наименьшим количеством товаров на складе
+        public async Task<Supplier> GetSupplierWithFewestAmountGoods()
+        {
+            var min = await _warehouseContext.Deliveries
+                .GroupBy(p => p.SupplierId)
+                .Select(p => new { SupplierId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderBy(p => p.AmountSum)
+                .FirstAsync();
+
+            var supplier = await _warehouseContext.Suppliers
+                .FindAsync(min.SupplierId);
+
+            if (supplier != null)
+            {
+                return supplier;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать информацию о типе товара с наибольшим количеством товаров на складе
+        public async Task<GoodsType> GetGoodTypeWithMostAmountGoods()
+        {
+            var max = await _warehouseContext.Deliveries
+                .GroupBy(p => p.Goods.GoodsTypeId)
+                .Select(p => new { GoodsTypeId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderByDescending(p => p.AmountSum)
+                .FirstAsync();
+
+            var goodsType = await _warehouseContext.GoodsType
+                .FindAsync(max.GoodsTypeId);
+
+            if (goodsType != null)
+            {
+                return goodsType;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать информацию о типе товара с наименьшим количеством товаров на складе
+        public async Task<GoodsType> GetGoodTypeWithFewestAmountGoods()
+        {
+            var min = await _warehouseContext.Deliveries
+                .GroupBy(p => p.Goods.GoodsTypeId)
+                .Select(p => new { GoodsTypeId = p.Key, AmountSum = p.Sum(p => p.Amount) })
+                .OrderBy(p => p.AmountSum)
+                .FirstAsync();
+
+            var goodsType = await _warehouseContext.GoodsType
+                .FindAsync(min.GoodsTypeId);
+
+            if (goodsType != null)
+            {
+                return goodsType;
+            }
+            throw new Exception("Нет товара");
+        }
+
+        // показать товары с поставки, которых прошло заданное количество дней
+        public async Task<List<Good>> GoodsWithDaysOnWarehouse(int days)
+        {
+            var now = DateTime.Now;
+            var timeNeeded = now.AddDays(-days);
+
+            var deliveris = await _warehouseContext.Deliveries
+                .Where(d => d.DeliveryDate <= timeNeeded)
+                .ToListAsync();
+
+            return deliveris
+                .Select(d => d.Goods)
+                .DistinctBy(g => g.Name)
+                .ToList();
+        }
+
         #endregion
     }
 }

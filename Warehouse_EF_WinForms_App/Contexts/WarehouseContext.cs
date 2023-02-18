@@ -27,7 +27,7 @@ public partial class WarehouseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-                .UseSqlServer(ConfigurationManager.ConnectionStrings["ConnectionJob"].ConnectionString)
+                .UseSqlServer(ConfigurationManager.ConnectionStrings["ConnectionHome"].ConnectionString)
                 .UseLazyLoadingProxies();
     }
 

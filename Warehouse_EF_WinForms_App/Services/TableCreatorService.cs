@@ -62,7 +62,7 @@ namespace Warehouse_EF_WinForms_App.Services
                 row[0] = delivery.Id;
                 row[1] = delivery.Amount;
                 row[2] = delivery.Goods.Name;
-                row[3] = delivery.Supplier.Name;
+                row[3] = delivery.Supplier.Name.ToString();
                 row[4] = delivery.DeliveryDate;
                 table.Rows.Add(row);
             }

@@ -23,6 +23,7 @@ namespace Warehouse_EF_WinForms_App
                 { 1, LoadGoodsTypeAsync },
                 { 2, LoadSuppliersAsync },
                 { 3, LoadDeliveriesAsync },
+                { 4, LoadQueriesAsync },
             };
         }
 
@@ -81,6 +82,11 @@ namespace Warehouse_EF_WinForms_App
             TableCreatorService.ShowTable(
                 gridDeliveries,
                 TableCreatorService.CreateDeliveriesTable(await _warehouseService.GetDeliveriesAsync()));
+        }
+
+        void LoadQueriesAsync()
+        {
+
         }
 
         #endregion
@@ -445,33 +451,25 @@ namespace Warehouse_EF_WinForms_App
         async void BtnGetGoodMaxAmount_Click(object sender, EventArgs e)
         {
             var good = await _warehouseService.GetGoodMaxAmountAsync();
-            MessageBox.Show(good.Name,
-                "Товар с максимальным количеством",
-                MessageBoxButtons.OK ,MessageBoxIcon.Information);
+            MessageBoxService.Show(good.Name, "Товар с максимальным количеством");
         }
 
         async void BtnGetGoodMinAmount_Click(object sender, EventArgs e)
         {
             var good = await _warehouseService.GetGoodMinAmountAsync();
-            MessageBox.Show(good.Name,
-                "Товар с минимальным количеством",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBoxService.Show(good.Name, "Товар с минимальным количеством");
         }
 
         async void BtnGetGoodMinCost_Click(object sender, EventArgs e)
         {
             var good = await _warehouseService.GetGoodMinCostAsync();
-            MessageBox.Show(good.Name,
-                "Товар с минимальной себестоимостью",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBoxService.Show(good.Name, "Товар с минимальной себестоимостью");
         }
 
         async void BtnGetGoodMaxCost_Click(object sender, EventArgs e)
         {
             var good = await _warehouseService.GetGoodMaxCostAsync();
-            MessageBox.Show(good.Name,
-                "Товар с максимальной себестоимостью",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBoxService.Show(good.Name, "Товар с максимальной себестоимостью");
         }
 
         async void BtnGetGoodSetGoodType_Click(object sender, EventArgs e)
@@ -488,9 +486,7 @@ namespace Warehouse_EF_WinForms_App
                     {
                         goodSetType += (item.Name + Environment.NewLine);
                     }
-                    MessageBox.Show(goodSetType,
-                    "Товары, категории" + " - " + form.Text,
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBoxService.Show(goodSetType, "Товары, категории" + " - " + form.Text);
                 }
             }
         }
@@ -509,9 +505,56 @@ namespace Warehouse_EF_WinForms_App
                     {
                         goodSetSupplier += (item.Name + Environment.NewLine);
                     }
-                    MessageBox.Show(goodSetSupplier,
-                    "Товары, поставщика" + " - " + form.Text,
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBoxService.Show(goodSetSupplier, "Товары, поставщика" + " - " + form.Text);
+                }
+            }
+        }
+
+        async void BtnOldetGoodInWarehouse_Click(object sender, EventArgs e)
+        {
+            var good = await _warehouseService.GetOldestGoodInWarehouse();
+            MessageBoxService.Show(good.Name, "Самый старый товар на складе");
+        }
+
+        async void BtnGetSupplierWithMostAmountGoods_Click(object sender, EventArgs e)
+        {
+            var supplier = await _warehouseService.GetSupplierWithMostAmountGoods();
+            MessageBoxService.Show(supplier.Name, "Поставщик с наибольшим количеством товаров на складе");
+        }
+
+        async void BtnGetSupplierWithFewestAmountGoods_Click(object sender, EventArgs e)
+        {
+            var supplier = await _warehouseService.GetSupplierWithFewestAmountGoods();
+            MessageBoxService.Show(supplier.Name, "Поставщик с наименьшим количеством товаров на складе");
+        }
+
+        async void BtnGetGoodTypeWithMostAmountGoods_Click(object sender, EventArgs e)
+        {
+            var goodType = await _warehouseService.GetGoodTypeWithMostAmountGoods();
+            MessageBoxService.Show(goodType.Name, "Тип товара с наибольшим количеством товаров на складе");
+        }
+
+        async void BtnGetGoodTypeWithFewestAmountGoods_Click(object sender, EventArgs e)
+        {
+            var goodType = await _warehouseService.GetGoodTypeWithFewestAmountGoods();
+            MessageBoxService.Show(goodType.Name, "Тип товара с наменьшим количеством товаров на складе");
+        }
+
+        async void BtnGoodsWithDaysOnWarehouse_Click(object sender, EventArgs e)
+        {
+            var form = new SetDateDeliveryQueryGoodForm();
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var goods = await _warehouseService.GoodsWithDaysOnWarehouse(form.Days);
+                if (goods != null)
+                {
+                    string listGoods = string.Empty;
+                    foreach (var item in goods)
+                    {
+                        listGoods += (item.Name + Environment.NewLine);
+                    }
+                    MessageBoxService.Show(listGoods, "Товары с поставки которых прошло " + form.Days + " дней");
                 }
             }
         }
